@@ -1,10 +1,30 @@
 # Bienvenue sur le profil de Simon Archipoff
 
-Je m'appelle Simon Archipoff, et je m'interesse à électronique et à la théorie du signal. Ce profil GitHub est un espace où je vais partager mes projets, mes recherches et mes contributions dans ces domaines qui me passionnent.
+Je m'appelle Simon Archipoff. J'ai une formation académique dans
+l'informatique. J'ai soutenu ma thèse doctorale en 2020 [Développement
+de la programmation par tuilage pour les systèmes multimédias
+interactifs](https://www.theses.fr/2020BORD0180). Au cours de ma
+formation académique j'ai étudier la théorie des graphes, des
+langages, la théorie de la calculabilité et de la complexité, de la
+démonstration, etc.
+
+
+Ces derniers temps je m'intéresse particulièrement à la théorie du
+signal, au traitement du signal et à l'électronique (analogique
+principalement). Ces dernières années j'ai fait pas mal de choses
+autour de ces sujets que je vais mettre en ligne ici même petit à
+petit.
+
+
 
 ## Mon Projet Principal
 
-Mon projet principal dans ces domaines est [ATSAHSNA](https://github.com/simonArchipoff/ATSAHSNA), où je travaille activement pour développer des solutions innovantes et explorer les concepts de l'électronique et de la théorie du signal. N'hésitez pas à explorer le projet pour en savoir plus sur mon travail.
+Mon projet principal dans ces domaines est
+[ATSAHSNA](https://github.com/simonArchipoff/ATSAHSNA), il s'agit à la
+base d'offrir un outil open source pour faire des mesures de systèmes
+acoustiques (réponse impulsionnelles et mesures de distorsion). Au
+cours de ce développement j'ai appris énormément et aujourd'hui je
+pense que ça peut aussi être un très bon outil pédagogique.
 
 <!-- Commentaire : Section des projets retirée -->
 <!--
@@ -25,4 +45,5 @@ Si vous avez des questions, des idées de collaboration ou simplement envie de d
 
 - [Envoyer un message](lien-vers-page-de-contact) : Je serais ravi de vous entendre !
 -->
+
 Merci de visiter mon profil GitHub, et j'espère que vous trouverez mon contenu intéressant et informatif.
