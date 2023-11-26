@@ -4,12 +4,12 @@
 Dans le cadre de mon projet [ATSAHSNA](https://github.com/simonArchipoff/ATSAHSNA), j'ai été conduit à m'interesser aux [transformée en ondelette continues(CWT)](https://fr.wikipedia.org/wiki/Ondelette).
 
 
-## Section 1 : Contexte
+## Contexte
 
 Bien que le résultat soit très proche de ce qu'on obtient avec une [transformée de fourier à court terme(STFT)](https://fr.wikipedia.org/wiki/Transform%C3%A9e_de_Fourier_%C3%A0_court_terme), l'algorithme est très différent.
 Pour une carte temps/fréquence de $t$ unités sur $n$ fréquences :
 * La transformée de fourier à court terme nécessite $t$ transformée de fourier de taille $n$
-* La transformée en ondelette continue nécessite $3*n$ transformée de fourier d'une taille $t$
+* La transformée en ondelette continue nécessite $3\times{}n$ transformée de fourier d'une taille $t$
 
 Dans mes cas d'usage typique pour la STFT, les données de chaque transformée de fourier tienent dans le cache L1 d'un processeur moderne, le temps de calcul est principalement dépendant de la longueur de l'entrée.
 Par exemple pour un enregistrement audio à 48000 échantillons par seconde, avec $n = 2048$ on couvre le spectre audible.
@@ -27,6 +27,14 @@ Nous avons un arbitrage à faire entre limiter la taille des données et préser
 
 Mon but est très pragmatique, avoir une méthode rapide et simple pour améliorer cette euristique.
 Je me propose de mesurer des temps d'executions de transformées de fourier, de regarder les valeurs qui se comportent bien et d'en déduire une meilleure heuristique que la puissance de 2 suivante.
+
+
+
+## Étrangeté
+
+J'ai été surpris de ne pas voir systématiquement les puissances de deux dans les minimums, dans un premier temps j'ai mis ça sur le compte de bruit de mesure, puis j'ai investigué davantage. Finalement, il s'avère que le temps de calcul d'une fft de taille  $4096 = 2^{12}$ est plus important que celui d'une fft de taille $4200 = 2^3 \times{} 3 \times{} 5^2 \times{} 7$, lors que cette première valeur est à la fois inférieure et jouit d'une meilleure factorisation.
+
+
 
 <!--
 
