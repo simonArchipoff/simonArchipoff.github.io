@@ -6,11 +6,9 @@ import time
 import scipy.constants as const
 
 # Générer un signal sinusoïdal
-fs = 8000  # fréquence d'échantillonnage en Hz
+fs = 8192  # fréquence d'échantillonnage en Hz
 t = np.linspace(0, 1, fs, endpoint=False)  # échantillonnage sur 1 seconde
 freq = 300  # fréquence du signal en Hz
-#signal_temporel = np.sin(2 * np.pi * freq * t)
-
 
 
 def add_with_shift(array1, array2, shift):
@@ -46,8 +44,6 @@ signal_temporel = add_with_shift(signal_temporel,0.5*hf,0.5)
 #high_freq_morlet = np.real(morlet(500, 100, complete=True))
 #signal_temporel[678:] += high_freq_morlet[:len(t) - 678]
 
-
-
 # Afficher le signal temporel
 plt.figure(figsize=(10, 6))
 plt.subplot(3, 1, 1)
@@ -72,7 +68,7 @@ plt.ylabel(f'Fréquence (Hz)')
 
 # Calculer et afficher la CWT
 freq = np.linspace(10, fs/2, len(f))
-w=15.0
+w=40.0
 widths = w*fs / (2*freq*np.pi)
 
 debut_cwt = time.time()
@@ -101,3 +97,4 @@ t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)  # vec
 signal = np.sin(2 * np.pi * 440 * t)  # signal sinusoidal de 440 Hz
 
 write_wav('output.wav', signal_temporel, fs)
+

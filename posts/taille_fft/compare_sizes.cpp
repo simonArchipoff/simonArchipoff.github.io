@@ -22,13 +22,9 @@ bool no_stupid_factor(T n){
 }
 
 struct result_bench bench(int size){
-  int align = 0;
-  const char * align_str=std::getenv("FFT_ALIGN");
-  if(align_str)
-    align=atoi(align_str);
   
-  fftw_complex *in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size + align);
-  fftw_complex *out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size + align);
+  fftw_complex *in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size);
+  fftw_complex *out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size);
   
 
   struct result_bench res;
@@ -36,9 +32,9 @@ struct result_bench bench(int size){
   res.size = size;
   res.mean_duration = 0;
 
-  auto p = fftw_plan_dft_1d(size, (fftw_complex*)(((char*)in)+align) ,(fftw_complex*)(((char*) out) + align), FFTW_FORWARD, FFTW_DESTROY_INPUT | FFTW_PATIENT);
+  auto p = fftw_plan_dft_1d(size, in ,out, FFTW_FORWARD, FFTW_DESTROY_INPUT | FFTW_MEASURE);
 
-  while(res.mean_duration < 10000000 || nb_runs < 10){
+  while(res.mean_duration < 1000000 | nb_runs < 100){
   for(int i = 0; i < size; i++){
     in[i][0] = rand();
     in[i][1] = rand();
@@ -62,9 +58,6 @@ struct result_bench bench(int size){
 
 int save = 0;
 
-
-
-
 int main(int argc, char * argv[]) {
   assert(argc > 1);
   const int minN = (1 << atoi(argv[1])) +1;
@@ -72,15 +65,16 @@ int main(int argc, char * argv[]) {
     auto err = fftw_import_wisdom_from_filename(WISDOM);
     printf("size;duration_ns\n");
     for (int n = minN; n <= maxN; n++) {
-      if(no_stupid_factor(n)){	
+      if(1||no_stupid_factor(n)){	
 	auto r = bench(n);
 	printf("%d;%ld\n",r.size,r.mean_duration);
+	fflush(stdout);
 	if((save++) % 100 == 0)
 	  fftw_export_wisdom_to_filename(WISDOM);    
       }
     }
 
-fftw_export_wisdom_to_filename(WISDOM);    
+    fftw_export_wisdom_to_filename(WISDOM);    
 
     return 0;
 }
