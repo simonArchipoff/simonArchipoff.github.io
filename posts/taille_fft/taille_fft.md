@@ -36,14 +36,14 @@ Je me propose de mesurer des temps d'executions de transformées de fourier, de 
 
 J'ai été surpris de ne pas voir systématiquement les puissances de deux dans les minimums, dans un premier temps j'ai mis ça sur le compte de bruit de mesure, puis j'ai investigué davantage. Finalement, il s'avère que le temps de calcul d'une fft de taille  $4096 = 2^{12}$ est plus important que celui d'une fft de taille $4200 = 2^3 \times{} 3 \times{} 5^2 \times{} 7$, lors que cette première valeur est à la fois inférieure et jouit d'une meilleure factorisation.
 
-| temps (en $\mu{}s$)| Taille 4096       | Taille 4200       |
+| | Taille 4096       | Taille 4200       |
 | ------------------ | ----------------- | ----------------- |
-| Moyenne            | 8.862             | 8.065             |
-| Médiane            | 8.677             | 7.995             |
+| Moyenne            | $8.862\mu\text{s}$           | $8.065\mu\text{s}$             |
+| Médiane            | $8.677\mu\text{s}$             | $7.995\mu\text{s}$             |
 
 
-Je ne sais pas lire ça, mais dans un soucis d'exhaustivité, voici les algos utilisées pour 4096 et 4200, respectivement.
-```
+<details>
+  <summary>Je ne sais pas lire ça, mais dans un soucis d'exhaustivité, voici les algos utilisées pour 4096 et 4200, respectivement.</summary>
 (dft-ct-dit/8
   (dftw-direct-8/28 "t1fv_8_avx")
   (dft-ct-dit/8
@@ -57,7 +57,7 @@ Je ne sais pas lire ça, mais dans un soucis d'exhaustivité, voici les algos ut
     (dftw-direct-15/56-x20 "t1fv_15_avx")
     (dft-vrank>=1-x15/1
       (dft-direct-14-x20 "n2fv_14_avx"))))
-```
+</details>
 
 
 
