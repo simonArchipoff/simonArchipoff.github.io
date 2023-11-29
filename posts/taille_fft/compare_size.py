@@ -24,7 +24,8 @@ for fichier_csv in fichiers_csv:
 
 
 df_all = pd.concat(dfs).sort_values(by='size').dropna()
-
+del(dfs)
+del(d)
 def factoriser_nombre(n):
     factors = []
     i = 2
@@ -57,31 +58,36 @@ df_all['max_time_for_later_sizes'] = df_all['duration_ns'].cummax()
 
 df = df.iloc[::-1]
 mins = df[df['min_time_for_later_sizes'].diff() != 0]
-df = df.iloc[::-1]
+mins = mins.iloc[::-1]
 
 #df_all = df_all.iloc[::-1]
 maxs = df_all[df_all['max_time_for_later_sizes'].diff() != 0]
 #df_all = df_all.iloc[::-1]
 
-df = df.iloc[::-1]
+#df = df.iloc[::-1]
 pow_of_2 = df[df['size'].apply(power_of_2)]
-df = df.iloc[::-1]
+#df = df.iloc[::-1]
 #almost_mins = df[df['duration_ns'] < 1.1 * df['min_time_for_later_sizes']]
 
 df = df.reset_index(drop=True)
+
+
+weird_power_of_2 = pow_of_2[pow_of_2['duration_ns'] > pow_of_2['min_time_for_later_sizes']]
+weird_power_of_2['best_value'] = weird_power_of_2['min_time_for_later_sizes'].apply(lambda v:mins[mins['min_time_for_later_sizes'] == v]['size'].to_numpy())
+
 plt.step(mins['size'], mins['duration_ns'],where='post', marker='o', color='b',label="minimum time size")
 #plt.plot(df['size'], df['max_time_for_later_sizes'],color='r')
 plt.step(pow_of_2['size'],pow_of_2['duration_ns'],where='post',marker='o',color='g',label="power of two")
-plt.step(maxs['size'], maxs['duration_ns'], where='post',marker='o', color='r')
-plt.plot(df_all['size'],df_all['duration_ns'].rolling(window=50).mean(),color="pink",label="moyenne glissante (50)")
+plt.step(maxs['size'], maxs['duration_ns'], where='post', marker='o', color='r',label="maximum time size")
+plt.plot(df_all['size'],df_all['duration_ns'].rolling(window=50).mean(),color="pink",label="sliding mean (n=50)")
 
-plt.xlabel('Taille')
-plt.ylabel('Temps (ns)')
+plt.xlabel('size')
+plt.ylabel('time (ns)')
 plt.legend()
 #plt.xticks([2**i for i in range(int(np.log2(df['size'].max())) + 1)])
 plt.xscale('log', base=2)
 plt.yscale('log',base=10)
-plt.title('Min Time for Later Sizes vs. Taille')
+plt.title('time vs. size')
 plt.grid(True)
 plt.show()
 
