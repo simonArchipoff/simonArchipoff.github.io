@@ -17,7 +17,9 @@ Bref, on peut considérer $n$ comme constant et le temps de calcul d'une STFT li
 
 
 À l'inverse, pour la CWT c'est la taille des transformées de fourier qui dépendent de $t$. Hors le temps d'execution d'une transformée de fourier ne croit pas linéairement avec la taille de son entrée,
-celui ci est très dépendant de la décomposition en facteur premier de la taille de l'entrée.
+celui ci est très dépendant de la décomposition en facteur premier de la taille de l'entrée. Ce petit exemple illustré est biaisé en faveur du STFT, j'ai choisi les paramètres pour qu'il produise  une sortie de la même taille que la transformée en ondelette. Dans un cas réel, sa taille serait bien inférieure. Pour les paramètres, c'est un signal à 8kHz de la STFT : fenetres de hann de taille 1024 par incrément de 1 seulement. Pour la cwt les fréquences sont héritées de la stft.
+
+![comparaison STFT et CWT](stft_cwt.png)
 
 Une très bonne heuristique est « prendre la puissance de deux suivante »,
 cela conduit parfois à littéralement doubler la taille de l'entrée, donc multiplier par plus de deux le temps de calcul,
