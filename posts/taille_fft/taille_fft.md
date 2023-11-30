@@ -26,7 +26,7 @@ celui ci est très dépendant de la décomposition en facteur premier de la tail
 
 Paradoxalement augmenter la taille de l'entrée est un moyen d'accelerer ce calcul.
 
-# Optimiser la taille
+## Optimiser la taille
 
 Une très bonne heuristique est « prendre la puissance de deux suivante »,
 cela conduit parfois à littéralement doubler la taille de l'entrée, donc multiplier par plus de deux le temps de calcul,
@@ -52,63 +52,16 @@ Comme nous pouvons le voir, la stratégie verte est pas mal, mais sous optimale.
 <iframe src="min_factor.html" height="400px" width="100%"></iframe>
 
 
-
-
 ## Étrangeté
 
-J'ai été surpris de ne pas voir systématiquement les puissances de deux dans les minimums, dans un premier temps j'ai mis ça sur le compte de bruit de mesure, puis j'ai investigué davantage. Finalement, il s'avère que le temps de calcul d'une fft de taille  $4096 = 2^{12}$ est plus important que celui d'une fft de taille $4200 = 2^3 \times{} 3 \times{} 5^2 \times{} 7$, lors que cette première valeur est à la fois inférieure et jouit d'une meilleure factorisation.
+J'ai été surpris de ne pas voir systématiquement les puissances de deux dans les minimums. C'est à dire qu'il arrive que les points verts soient strictement au dessus de la courbe bleu. Dans un premier temps j'ai mis ça sur le compte de bruit de mesure, après avoir fait en sorte d'absorber ce bruit dans des mesures multiples je retrouve les mêmes différences.
 
-| | Taille 4096       | Taille 4200       |
-| ------------------ | ----------------- | ----------------- |
-| Moyenne            | $8.862\mu\text{s}$           | $8.065\mu\text{s}$             |
-| Médiane            | $8.677\mu\text{s}$             | $7.995\mu\text{s}$             |
+| taille puissance de 2 |  durée en $\mu\text{s}$ ||   taille optimal |   durée $\mu\text{s}$ | factorisation |
+|-------:|--------------:|-|-------------:|---------------------------:|:-------------------------------------|
+| 131072 |        440.636 ||       134400 |                     419.057 | [2, 2, 2, 2, 2, 2, 2, 2, 3, 5, 5, 7] |
+|  65536 |        194.448 ||        67200 |                     176.851 | [2, 2, 2, 2, 2, 2, 2, 3, 5, 5, 7]    |
+|  32768 |        104.760 ||        33600 |                      82.358 | [2, 2, 2, 2, 2, 2, 3, 5, 5, 7]       |
+|  16384 |         39.552 ||        16800 |                      38.739 | [2, 2, 2, 2, 2, 3, 5, 5, 7]          |
+|   4096 |          8.602 ||         4480 |                       7.548 | [2, 2, 2, 2, 2, 2, 2, 5, 7]          |
 
-
-<details>
-  <summary>Je ne sais pas lire ça, mais dans un soucis d'exhaustivité, voici les algos utilisées pour 4096 et 4200, respectivement.</summary>
-(dft-ct-dit/8
-  (dftw-direct-8/28 "t1fv_8_avx")
-  (dft-ct-dit/8
-    (dftw-direct-8/56-x8 "t2fv_8_avx")
-    (dft-vrank>=1-x8/1
-      (dft-direct-64-x8 "n2fv_64_avx"))))
-
-(dft-ct-dit/20
-  (dftw-direct-20/76 "t1fv_20_avx")
-  (dft-ct-dit/15
-    (dftw-direct-15/56-x20 "t1fv_15_avx")
-    (dft-vrank>=1-x15/1
-      (dft-direct-14-x20 "n2fv_14_avx"))))
-</details>
-
-
-
-
-<!--
-
-## Section 2 : Objectifs
-[Définition des objectifs ou des questions que l'article va aborder.]
-
-## Section 3 : Méthodologie
-[Explication des méthodes ou des approches utilisées.]
-
-## Section 4 : Résultats
-[Présentation des résultats obtenus.]
-
-## Section 5 : Discussion
-[Analyse des résultats et discussion des implications.]
-
-## Conclusion
-[Résumé des points clés et éventuelles recommandations.]
-
-## Ressources Additionnelles
-[Liste de références, liens, ou ressources supplémentaires.]
-
----
-
-**À propos de l'auteur**
-[Bref paragraphe sur l'auteur et ses domaines d'expertise.]
-
-**Contact**
-[Coordonnées de l'auteur ou liens vers les profils sociaux.]
--->
+Il semble que parfois les facteurs 5 et 7 soient encore meilleurs que les facteurs 2. Je connais mal les algo FFT, cela mériterait d'être investigué davantage.
