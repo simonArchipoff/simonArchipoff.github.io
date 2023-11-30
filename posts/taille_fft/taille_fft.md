@@ -48,8 +48,10 @@ En abscisse la taille de l'entrée, en ordonnée le temps de calcul pour une FFT
 * La courbe rouge est donnée à titre indicatif, c'est en quelque sorte la duale de la courbe bleu, elle représente les pire choix en matière se tailles.
 * La courbe rose est également donnée à titre indicatif, il s'agit de la moyenne glissante sur toute les tailles. On peut voir que les cas les pires sont suffisament graves pour affecter significativement la moyenne.
 
-Comme nous pouvons le voir, la stratégie verte est pas mal, mais sous optimale. Si nous observons les factorisation des points de la courbe bleu, nous remarquons quelque chose :
-<iframe src="min_factor.html" height="400px" width="100%"></iframe>
+Comme nous pouvons le voir, la stratégie verte est pas mal, mais sous optimale. Si nous observons les factorisation des points de la courbe bleu, nous remarquons que l'on trouve des facteurs jusqu'à 7, en petit nombre, ainsi que des facteurs 5 et 3, même si les facteurs 2 sont toujours majoritaires.
+
+[données factorisation valeur minimale](min_factor.md)
+
 
 
 ## Étrangeté
