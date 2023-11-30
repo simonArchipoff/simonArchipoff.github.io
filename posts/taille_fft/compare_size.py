@@ -71,6 +71,10 @@ pow_of_2 = df[df['size'].apply(power_of_2)]
 
 df = df.reset_index(drop=True)
 
+with open("min_factor.html",'w') as f:
+    f.write(mins[['size','factors']].to_html(index=False))
+
+
 
 weird_power_of_2 = pow_of_2[pow_of_2['duration_ns'] > pow_of_2['min_time_for_later_sizes']]
 weird_power_of_2['best_value'] = weird_power_of_2['min_time_for_later_sizes'].apply(lambda v:mins[mins['min_time_for_later_sizes'] == v]['size'].to_numpy())
