@@ -146,8 +146,8 @@ investigué davantage.
 
 En vrac, voilà  quelques scripts pour générer et analyser les données.
 
-[benchmark fftw](./compare_sizes.cpp)
-[benchmark fftw (une seule taille, pour des données plus précises pour la section "étrangeté")](./compare_size.cpp)
-[analyse et tracage des courbes](./compare_size.py)
+* [benchmark fftw](./compare_sizes.cpp)
+* [benchmark fftw (une seule taille, pour des données plus précises pour la section "étrangeté")](./compare_size.cpp)
+* [analyse et tracage des courbes](./compare_size.py)
 
 N'hésitez pas à me contacter si vous avez questions, suggestions, ou si j'ai fait une erreur.
