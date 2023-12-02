@@ -3,7 +3,7 @@
 ## Introduction
 Dans le cadre de mon projet
 [ATSAHSNA](https://github.com/simonArchipoff/ATSAHSNA), j'ai été
-conduit à m'interesser aux [transformée en ondelette
+conduit à m'intéresser aux [transformée en ondelette
 continues(CWT)](https://fr.wikipedia.org/wiki/Ondelette).
 
 
@@ -28,7 +28,7 @@ Pour une carte temps/fréquence de $t$ unités de temps sur $n$ fréquences :
 * La transformée en ondelette continue nécessite $2\times{}n+1$ transformée de fourier d'une taille $t$
 
 Dans mes cas d'usage typique pour la STFT, les données de chaque
-transformée de fourier tienent dans le cache L1 d'un processeur
+transformée de fourier tiennent dans le cache L1 d'un processeur
 moderne, le temps de calcul est principalement dépendant de la
 longueur de l'entrée.  Par exemple pour un enregistrement audio à
 48000 échantillons par seconde, avec $n = 2048$ on couvre le spectre
@@ -36,25 +36,25 @@ audible.  Bref, on peut considérer $n$ comme constant et le temps de
 calcul d'une STFT linéaire avec $t$.
 
 À l'inverse, pour la CWT c'est la taille des transformées de fourier
-qui dépendent de $t$. Hors le temps d'execution d'une transformée de
+qui dépendent de $t$. Hors le temps d'exécution d'une transformée de
 fourier ne croit pas linéairement avec la taille de son entrée, celui
 ci est très dépendant de la décomposition en facteur premier de la
 taille de l'entrée. Ce petit exemple illustré est biaisé en faveur du
 STFT, j'ai choisi les paramètres pour qu'il produise une sortie de la
 même taille que la transformée en ondelette. Dans un cas réel, sa
 taille serait bien inférieure. Pour les paramètres, c'est un signal à
-8kHz de la STFT : fenetres de hann de taille 1024 par incrément de 1
+8kHz de la STFT : fenêtres de Hann de taille 1024 par incrément de 1
 seulement. Pour la cwt les fréquences sont héritées de la stft, la
 longueur est imposée par l'entrée, et l'ondelette et celle de morlet
 avec le paramètre de nombre de cycle de $40$, ce qui est assez
 élevé. Ce parametre permet l'arbitrage sur la résolution entre la
 fréquence et la position. Plus l'ondelette est longue, plus elle
-selectionne sa propre fréquence, moins elle la localise précisement,
+sélectionne sa propre fréquence, moins elle la localise précisément,
 et réciproquement. J'ai choisi ce parametre pour faire converger le
 résultat avec la STFT, qui a une très bonne résolution fréquentielle,
 et une très mauvaise résolution temporelle.
 
-Paradoxalement augmenter la taille de l'entrée est un moyen d'accelerer ce calcul.
+Paradoxalement augmenter la taille de l'entrée est un moyen d'accélérer ce calcul.
 
 ## Optimiser la taille
 
@@ -66,7 +66,7 @@ Nous avons un arbitrage à faire entre limiter la taille des données et préser
 
 Mon but est très pragmatique, avoir une méthode rapide et simple pour
 améliorer cette heuristique.  Je me propose de mesurer des temps
-d'executions de transformées de fourier, de regarder les valeurs qui
+d'exécutions de transformées de fourier, de regarder les valeurs qui
 se comportent bien et d'en déduire une meilleure heuristique que la
 puissance de 2 suivante.
 
@@ -77,7 +77,7 @@ J'ai réalisé ce benchmark avec fftw3 3.3.10 avec g++ -O3 en version 13.2.1 sur
 En abscisse la taille de l'entrée, en ordonnée le temps de calcul pour une FFT.
 
 * La courbe verte représente le temps pour une entrée donnée avec la stratégie "prendre la puissance de 2 supérieure.
-* La courbe bleu représente le temps si l'on prend une taille suppérieure qui minimise le temps de calcul.
+* La courbe bleu représente le temps si l'on prend une taille supérieure qui minimise le temps de calcul.
 * La courbe rouge est donnée à titre indicatif, c'est en quelque sorte la duale de la courbe bleu, elle représente les pire choix en matière se tailles.
 * La courbe rose est également donnée à titre indicatif, il s'agit de la moyenne glissante sur toute les tailles. On peut voir que les cas les pires sont suffisament graves pour affecter significativement la moyenne.
 
@@ -91,7 +91,7 @@ facteur 5 pour les tailles significatives ?
 [données factorisation valeur minimale](min_factor.md)
 
 Je me propose donc de tester l'heuristique suivante, qui pourrait être
-bien plus rafinée et rapide, peut être via des réécriture de
+bien plus raffinée et rapide, peut être via des réécriture de
 facteurs. L'idée est d'avoir un maximum de facteur 2, quelques
 facteurs 3, et éventuellement des facteurs 5 et 7.
 
@@ -116,7 +116,7 @@ Voilà ce que cela donne sur les entiers satisfaisant ce prédicat.
 ![mon heuristique](good_enough.png)
 
 La surcharge de calcul engendrée par la recherche de ces tailles, bien
-que très sous optimal, je l'ai mesuré à 1ns par execution en moyenne
+que très sous optimal, je l'ai mesuré à $1\text{ns}$ par exécution en moyenne
 entre 2 et $2^{30}$. 
 
 
@@ -138,11 +138,20 @@ mêmes différences.
 | 131072 |        440.636 ||       134400 |                     419.057 | [2, 2, 2, 2, 2, 2, 2, 2, 3, 5, 5, 7] |
 
 Il semble que parfois les facteurs 5 et 7 soient encore meilleurs que
-les facteurs 2. Je connais mal les algo FFT, cela mériterait d'être
-investigué davantage.
+les facteurs 2. Je connais mal les algorithmes FFT, cela mériterait d'être
+investigué  davantage.
 
 
-## Materiel
+## Conclusion et perspective
+
+On peut faire mieux que simplement prendre la puissance de 2
+supérieure, on peut même se demander si prendre une puissance de 2 est
+toujours la bonne stratégie.  Dans les temps qui viennent je vais
+poursuivre mon exploration des FFT, CWT et STFT et je posterais les
+résultats de mes optimisations.
+
+
+## Matériel
 
 En vrac, voilà  quelques scripts pour générer et analyser les données.
 
