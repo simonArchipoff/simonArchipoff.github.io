@@ -26,6 +26,11 @@ acoustiques (réponse impulsionnelles et mesures de distorsion). Au
 cours de ce développement j'ai appris énormément et aujourd'hui je
 pense que ça peut aussi être un très bon outil pédagogique.
 
+
+## Petits articles
+
+[transformée en ondelette, transformée de fourier à court terme, et taille de fft](./posts/taille_fft/taille_fft.md)
+
 <!-- Commentaire : Section des projets retirée -->
 <!--
 ## Mes Projets
@@ -46,4 +51,3 @@ Si vous avez des questions, des idées de collaboration ou simplement envie de d
 - [Envoyer un message](lien-vers-page-de-contact) : Je serais ravi de vous entendre !
 -->
 
-Merci de visiter mon profil GitHub, et j'espère que vous trouverez mon contenu intéressant et informatif.
