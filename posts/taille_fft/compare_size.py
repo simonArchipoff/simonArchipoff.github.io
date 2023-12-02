@@ -16,16 +16,23 @@ for fichier_csv in fichiers_csv:
 df= pd.concat(dfs).sort_values(by='size')
 
 fichiers_csv = glob.glob("./result_all_2p*.csv")
-
 dfs = []
 for fichier_csv in fichiers_csv:
     d = pd.read_csv(fichier_csv,names=["size","duration_ns"],sep=';',header=1)
     dfs.append(d)
-
-
 df_all = pd.concat(dfs).sort_values(by='size').dropna()
 del(dfs)
 del(d)
+
+
+fichiers_csv = glob.glob("./result_nice_2p*.csv")
+dfs = []
+for fichier_csv in fichiers_csv:
+    d = pd.read_csv(fichier_csv,names=["size","duration_ns"],sep=';',header=1)
+    dfs.append(d)
+df_nice = pd.concat(dfs).sort_values(by='size').dropna()
+
+
 def factoriser_nombre(n):
     factors = []
     i = 2
@@ -71,19 +78,29 @@ pow_of_2 = df[df['size'].apply(power_of_2)]
 
 df = df.reset_index(drop=True)
 
-with open("min_factor.html",'w') as f:
-    f.write(mins[['size','factors']].to_html(index=False))
+with open("min_factor.md",'w') as f:
+    f.write(mins[['size','factors']].to_markdown(index=False))
 
 
 
 weird_power_of_2 = pow_of_2[pow_of_2['duration_ns'] > pow_of_2['min_time_for_later_sizes']]
-weird_power_of_2['best_value'] = weird_power_of_2['min_time_for_later_sizes'].apply(lambda v:mins[mins['min_time_for_later_sizes'] == v]['size'].to_numpy())
+weird_power_of_2['best_value'] = weird_power_of_2['min_time_for_later_sizes'].apply(lambda v:mins[mins['min_time_for_later_sizes'] == v]['size'].to_numpy()[0])
+weird_power_of_2['best_value_factor'] = weird_power_of_2['best_value'].apply(factoriser_nombre)
 
-plt.step(mins['size'], mins['duration_ns'],where='post', marker='o', color='b',label="minimum time size")
+print(weird_power_of_2[['size',"duration_ns",'best_value', 'min_time_for_later_sizes','best_value_factor']].to_markdown(index=False))
+
+pow_of_2 = df_nice[df_nice['size'].apply(power_of_2)]
+#plt.step(mins['size'], mins['duration_ns'],where='post', marker='o', color='b',label="minimum time size")
 #plt.plot(df['size'], df['max_time_for_later_sizes'],color='r')
-plt.step(pow_of_2['size'],pow_of_2['duration_ns'],where='post',marker='o',color='g',label="power of two")
-plt.step(maxs['size'], maxs['duration_ns'], where='post', marker='o', color='r',label="maximum time size")
-plt.plot(df_all['size'],df_all['duration_ns'].rolling(window=50).mean(),color="pink",label="sliding mean (n=50)")
+plt.step(pow_of_2['size'],pow_of_2['duration_ns'],where='pre',marker='o',color='g',label="power of two")
+#plt.step(maxs['size'], maxs['duration_ns'], where='post', marker='o', color='r',label="maximum time size")
+#plt.plot(df_all['size'],df_all['duration_ns'].rolling(window=50).mean(),color="pink",label="sliding mean (n=50)")
+
+df_nice.set_index('size',inplace=True)
+df_all.set_index('size',inplace=True)
+#f = df_nice.join(df,rsuffix='nice',lsuffix='all',how='inner')
+plt.step(df_nice.index,df_nice['duration_ns'],where='pre',label="mon heuristique")
+
 
 plt.xlabel('size')
 plt.ylabel('time (ns)')

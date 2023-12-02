@@ -12,13 +12,15 @@ struct result_bench{
 
 template<typename T>
 bool no_stupid_factor(T n){
-  auto good_factors = {2,3,5,7,11,13,17,19,23};
-  for(const auto & factor : good_factors){
-        while(n % factor == 0){
-            n /= factor;
-        }
-    }
-    return n == 1;
+  int n2 = 0;
+  while(n % 2 == 0){ n /= 2; n2++;}
+  while(n2 > 0 && n % 3 == 0){ n/=3; n2-=3;}
+  if(n2 > 0 && n % 5 == 0){ n/=5; n2-=3;}
+  if(n2 > 0 && n % 5 == 0){
+    n/=5; n2-=3;
+    if(n2 > 0 && n % 7 == 0){ n/=7; n2-=3;}
+  }
+  return n2 >= 0 && n == 1;
 }
 
 struct result_bench bench(int size){
@@ -65,7 +67,7 @@ int main(int argc, char * argv[]) {
     auto err = fftw_import_wisdom_from_filename(WISDOM);
     printf("size;duration_ns\n");
     for (int n = minN; n <= maxN; n++) {
-      if(1||no_stupid_factor(n)){	
+      if(no_stupid_factor(n)){	
 	auto r = bench(n);
 	printf("%d;%ld\n",r.size,r.mean_duration);
 	fflush(stdout);

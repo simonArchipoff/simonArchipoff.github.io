@@ -22,7 +22,7 @@ int main(int argc, char * argv[]) {
   fftw_complex *out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size + align);
   
 
-  auto p = fftw_plan_dft_1d(size, (fftw_complex*)(((char*)in)+align) ,(fftw_complex*)(((char*) out) + align), FFTW_FORWARD, FFTW_DESTROY_INPUT | FFTW_PATIENT | (align ? FFTW_UNALIGNED : 0));
+  auto p = fftw_plan_dft_1d(size, (fftw_complex*)(((char*)in)+align) ,(fftw_complex*)(((char*) out) + align), FFTW_FORWARD, FFTW_DESTROY_INPUT | FFTW_ESTIMATE | (align ? FFTW_UNALIGNED : 0));
 
 
 
