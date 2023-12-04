@@ -1,10 +1,22 @@
 # Quelle taille pour une FFT ?
 
-## Introduction
-Dans le cadre de mon projet
+Dans le cadre de mon projet logiciel d'analyse de signaux accoustiques
 [ATSAHSNA](https://github.com/simonArchipoff/ATSAHSNA), j'ai été
 conduit à m'intéresser aux [transformée en ondelette
 continues(CWT)](https://fr.wikipedia.org/wiki/Ondelette).
+
+Lorsque l'on analyse un signal, on le fait usuellement dans deux
+domaine : temporel et fréquentiel. La première donne naturellement des
+informations sur la manière dont le signal varie dans le temps, la
+seconde sur son contenu fréquentiel. Cependant, extraire des
+informations est peu aisé dans le cas du temporel, et quasiment
+impossible dans le cas du fréquentiel.
+
+Pour cette raison, des outils ont été développés afin d'étudier
+l'évolution du contenu fréquentiel dans le temps.
+
+Comme nous allons le voir, l'optimisation des tailles de FFT
+présentent un certain enjeux dans ce cadre.
 
 
 ## Contexte
