@@ -167,6 +167,7 @@ résultats de mes optimisations.
 
 En vrac, voilà  quelques scripts pour générer et analyser les données.
 
+* [cwt et stft](./stft_cwt.py)
 * [benchmark fftw](./compare_sizes.cpp)
 * [benchmark fftw (une seule taille, pour des données plus précises pour la section "étrangeté")](./compare_size.cpp)
 * [analyse et tracage des courbes](./compare_size.py)
