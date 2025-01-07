@@ -4,7 +4,7 @@ Je m'appelle Simon Archipoff. J'ai une formation académique dans
 l'informatique. J'ai soutenu ma thèse doctorale en 2020 [Développement
 de la programmation par tuilage pour les systèmes multimédias
 interactifs](https://www.theses.fr/2020BORD0180). Au cours de ma
-formation académique j'ai étudier la théorie des graphes, des
+formation académique j'ai étudié la théorie des graphes, des
 langages, la théorie de la calculabilité et de la complexité, de la
 démonstration, etc.
 
@@ -14,8 +14,6 @@ signal, au traitement du signal et à l'électronique (analogique
 principalement). Ces dernières années j'ai fait pas mal de choses
 autour de ces sujets que je vais mettre en ligne ici même petit à
 petit.
-
-
 
 ## Mon Projet Principal
 
