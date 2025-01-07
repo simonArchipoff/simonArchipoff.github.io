@@ -37,7 +37,7 @@ seconde est perceptible, 0.8s est très long.
 
 Pour une carte temps/fréquence de $t$ unités de temps sur $n$ fréquences :
 * La transformée de fourier à court terme nécessite $t$ transformée de fourier de taille $2\times{}n$
-* La transformée en ondelette continue nécessite $2\times{}n+1$ transformée de fourier d'une taille $t$
+* La transformée en ondelette continue nécessite $n+1$ transformée de fourier d'une taille $t$
 
 Dans mes cas d'usage typique pour la STFT, les données de chaque
 transformée de fourier tiennent dans le cache L1 d'un processeur
